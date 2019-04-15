@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+	    html, body
+		{
+		    height: 100%;
+		    background-color: black;
+		    color: #00FF00;
+		    font-size: 20px;
+		}
+		input{
+			width: 100%;
+			background-color: black;
+			color: #00FF00;
+			border: none;
+			font-family: Consolas;
+			font-size: 20px;
+		}
+    </style>
+</head>
+<body style="font-family: Consolas;">
+	<div style="width: 980px; margin-left: auto; margin-right: auto;">
+		<div id="output"></div>
+		<div>
+			<div style="display: inline-block"><span id="prompt">{{ prompt }}</span></div>
+			<div style="display: inline-block"><input type="text" id="input" onkeypress="enterCheck(event)" autocomplete="false"></div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		var output = document.getElementById("output");
+		var input = document.getElementById("input");
+		var prompt = document.getElementById("prompt");
+
+		function enterCheck(e) {
+		    if (e.keyCode == 13) {
+				executeCommand();
+		    }
+		}
+
+		function executeCommand(){
+			command = input.value;
+
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					result = this.responseText.split("|"); 
+
+					if (command == "clear"){
+						output.innerHTML = "";
+					} else {
+						output.innerHTML += "<br>" + prompt.innerHTML + " " + command;
+						output.innerHTML += "<br>" + result[0].replace("\t", "&nbsp;&nbsp;&nbsp;&nbsp;");
+						prompt.innerHTML = result[1];
+					}
+
+					input.value = "";
+					input.scrollIntoView(false);
+					input.focus();
+				}
+			};
+			xhttp.open("POST", "/interpret", true);
+			xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			xhttp.send("cmd=" + command);
+		}
+		input.focus();
+	</script>
+</body>
+</html>
