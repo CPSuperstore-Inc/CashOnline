@@ -1439,7 +1439,9 @@ def help(*args):
               'directory_path', 'execute_file', 'get_command_args', 'get_cwd', 'get_docstring', 'command_history',
               'platform', 'interpret_command', 'os', 'return_value', 'shutil', 'subprocess', 'sys', 'temporary_storage',
               'time', 'variables', 'zipfile', 'getpass', 'requests', 'config', 're', "sqlite3", "SQL", "execute_sql",
-              "selected_database", "get_prompt", "overridden", "mysql", "item", "i"]
+              "selected_database", "get_prompt", "overridden", "mysql", "item", "i", "__cached__ ", "__loader__",
+              "__spec__", "__warningregistry__"
+              ]
     delete += config["disabled_commands"]
     modules = dir(current_module)
     approved = []
